@@ -1,27 +1,34 @@
 <!doctype html>
+<style>
+</style>
+
 <html>
-    <div id="note" contenteditable></div>
     <head>
         <meta charset="utf-8">
         <title>My Web Page</title>
-    </head>
+    </head> 
+    <div id="note" style="text-align:center;border:solid;width:60%;" contenteditable></div>
+    <button onclick="save();">SAVE</button>
 </html>
 
 <script src="https://unpkg.com/filer/dist/filer.min.js"></script>
 <script>
     const fs = new Filer.FileSystem();
+
     window.addEventListener('DOMContentLoaded', (event) => {
         console.log('DOM fully loaded and parsed');
         fs.readFile('/note.txt', 'utf8', function(err, data) {
-            if (data) document.getElementById('note').innerHTML = data
-            else document.getElementById('note').innerHTML = "Welcome to my notepad!"
+            if (data) document.getElementById('note').innerHTML = data;
+            else document.getElementById('note').innerHTML = "Welcome to my notepad!";
         })
     });
 
-    var intervalID = window.setInterval(intervalSave, 2000);
-    function intervalSave(){
-        fs.writeFile('/note.txt', document.getElementById('note').innerHTML , function(err) {
-            if (err) throw err;
+    function save(){
+        fs.writeFile('/note.txt', document.querySelector('#note').innerHTML , function(err) {
+            if (err) {
+                throw err;
+                document.getElementById('note').innerHTML = 'ERROR';
+            };
         });  
     }
 </script>
