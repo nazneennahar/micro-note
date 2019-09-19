@@ -9,9 +9,11 @@
     </head> 
     <div id="note" style="text-align:center;border:solid;width:60%;" contenteditable></div>
     <button onclick="save();">SAVE</button>
+    <button onclick="saveNote()">SAVE AS</button>
 </html>
 
 <script src="https://unpkg.com/filer/dist/filer.min.js"></script>
+<script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
 <script>
     const fs = new Filer.FileSystem();
 
@@ -27,5 +29,15 @@
         fs.writeFile('/note.txt', document.querySelector('#note').innerHTML , function(err) {
             if (err) throw err;
         });  
+    }
+
+    //Saving the note on your local machine
+    function saveNote(){
+        try{
+            var blob = new Blob([document.getElementById('note').innerHTML], {type: "text/plain;charset=uft-8"});
+            saveAs(blob, "note.txt")
+        }catch(e){
+            console.log(e);
+        }
     }
 </script>
